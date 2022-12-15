@@ -9,20 +9,57 @@ class ListboxWidget(QListWidget):
         self.setAcceptDrops(True)
         self.resize(600, 300)
 
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+
+            links = []
+
+            for url in event.mimeData().urls():
+                if url.isLocalFile():
+                    links.append(str(url.toLocalFile()))
+                else:
+                    links.append(str(url.toString()))
+
+            self.addItems(links)
+        else:
+            event.ignore()
+
+
 
 class AppDemo(QMainWindow):
     def __init__(self):
         super().__init__()
         self.resize(1100, 302)
-        
-        self.lstView = ListboxWidget(self)
+
+        self.lstbox_view = ListboxWidget(self)
 
         self.button = QPushButton('Importar', self)
         self.button.setGeometry(750, 160, 300, 50)
+
+        self.button.clicked.connect(lambda :print(self.gettSelectedItem()) )
+
+    def getSelectedItem(self):
+        item = QListWidgetItem(self.lstbox_view.currentItem())
+        return item.text
     
 
-app = QApplication(sys.argv)
-demo = AppDemo()
-demo.show()
-
-sys.exit(app.exec_())
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    demo = AppDemo()
+    demo.show()
+    sys.exit(app.exec_())
