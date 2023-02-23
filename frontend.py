@@ -70,6 +70,12 @@ class FrontendApp(QMainWindow):
     def send_signal(self):
         self.connection_signal.emit(self.lstbox_view.links)
 
+    def change_label(self, event):
+        if event:
+            self.button.setText(f'Hay cuentas sin contabilizar')
+        else:
+            self.button.setText(f'Todas las cuentas fueron contabilizadas')
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
