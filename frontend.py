@@ -52,6 +52,7 @@ class ListboxWidget(QListWidget):
 class FrontendApp(QMainWindow):
     def __init__(self, connection_signal):
         super().__init__()
+        self.setWindowTitle('Procesador de Excels')
         self.connection_signal = connection_signal
         self.resize(1100, 302)
 
