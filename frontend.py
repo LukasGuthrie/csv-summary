@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QListWidgetI
 from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSignal
 
 class ConnectionSignal(QObject):
-    
+
     list_signal = pyqtSignal(list)
 
 
@@ -61,9 +61,12 @@ class FrontendApp(QMainWindow):
         self.button = QPushButton('Importar', self)
         self.button.setGeometry(750, 160, 300, 50)
 
-        self.button.clicked.connect(self.connection_signal.emit(self.lstbox_view.links))
+        self.button.clicked.connect(self.send_signal)
 
         self.show()
+
+    def send_signal(self):
+        self.connection_signal.emit(self.lstbox_view.links)
 
 
 if __name__ == '__main__':
