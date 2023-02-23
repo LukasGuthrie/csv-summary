@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt, QUrl, QObject, pyqtSignal
 class ConnectionSignal(QObject):
 
     list_signal = pyqtSignal(list)
+    bool_signal = pyqtSignal(bool)
 
 
 class ListboxWidget(QListWidget):
@@ -50,10 +51,11 @@ class ListboxWidget(QListWidget):
 
 
 class FrontendApp(QMainWindow):
-    def __init__(self, connection_signal):
+    def __init__(self, connection_signal, warning_signal):
         super().__init__()
         self.setWindowTitle('Procesador de Excels')
         self.connection_signal = connection_signal
+        self.warning_signal = warning_signal
         self.resize(1100, 302)
 
         self.lstbox_view = ListboxWidget(self)
